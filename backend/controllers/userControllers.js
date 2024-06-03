@@ -20,18 +20,18 @@ oauth2Client.setCredentials({
   refresh_token: process.env.OAUTH_REFRESH_TOKEN,
 });
 
-async function getAccessToken() {
-  try {
-    const { token } = await oauth2Client.getAccessToken();
-    if (!token) {
-      throw new Error("Failed to obtain access token");
-    }
-    return token;
-  } catch (error) {
-    console.error("Error getting access token:", error);
-    throw error;
-  }
-}
+// async function getAccessToken() {
+//   try {
+//     const { token } = await oauth2Client.getAccessToken();
+//     if (!token) {
+//       throw new Error("Failed to obtain access token");
+//     }
+//     return token;
+//   } catch (error) {
+//     console.error("Error getting access token:", error);
+//     throw error;
+//   }
+// }
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
@@ -41,7 +41,7 @@ const transporter = nodemailer.createTransport({
     clientId: process.env.OAUTH_CLIENT_ID,
     clientSecret: process.env.OAUTH_CLIENT_SECRET,
     refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-    accessToken:  await getAccessToken(), // optional, will be generated automatically
+    //     accessToken:  await getAccessToken(), // optional, will be generated automatically
   },
 });
 
