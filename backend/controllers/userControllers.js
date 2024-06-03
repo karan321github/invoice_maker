@@ -4,6 +4,7 @@ import { generateToken } from "../config/generateToken.js";
 import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { google } from "googleapis";
+import expressAsyncHandler from "express-async-handler";
 
 dotenv.config();
 
@@ -53,7 +54,7 @@ transporter.verify((error, success) => {
   }
 });
 
-const sendVerificationEmail = async (user, token) => {
+const sendVerificationEmail = expressAsyncHandler(async (user, token) => {
   const url = `http://localhost:5000/verify-email?token=${token}`;
 
   try {
@@ -69,9 +70,9 @@ const sendVerificationEmail = async (user, token) => {
   } catch (error) {
     console.error("Error sending email:", error);
   }
-};
+});
 
-export const registerUser = async (req, res) => {
+export const registerUser = expressAsyncHandler(async (req, res) => {
   try {
     const { name, email, password, pic, address } = req.body;
     const hashedPassword = bcrypt.hashSync(password, 10);
@@ -114,9 +115,9 @@ export const registerUser = async (req, res) => {
   } catch (error) {
     res.status(400).send(error.message);
   }
-};
+});
 
-export const login = async (req, res) => {
+export const login = expressAsyncHandler(async (req, res) => {
   try {
     const { email, password } = req.body;
 
@@ -152,9 +153,9 @@ export const login = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
-};
+});
 
-export const verifyEmail = async (req, res) => {
+export const verifyEmail = expressAsyncHandler(async (req, res) => {
   try {
     const { token } = req.query;
 
@@ -181,4 +182,4 @@ export const verifyEmail = async (req, res) => {
   } catch (error) {
     res.status(400).json({ message: "Invalid token" });
   }
-};
+});
