@@ -2,14 +2,18 @@
 
 import { createSlice } from "@reduxjs/toolkit";
 
+const initialState = {
+  user: null,
+  isLoggedIn: false,
+  isLoading: false,
+  error: null,
+};
+
+const storedAuthState = JSON.parse(localStorage.getItem("authState"));
+
 export const authSlice = createSlice({
   name: "auth",
-  initialState: {
-    user: null,
-    isLoggedIn: false,
-    isLoading: false,
-    error: null,
-  },
+  initialState: storedAuthState || initialState,
   reducers: {
     loginStart: (state) => {
       state.isLoading = true;
@@ -20,6 +24,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = true;
       state.isLoading = false;
       state.error = null;
+      localStorage.setItem("authState", JSON.stringify(state));
     },
     loginFailure: (state, action) => {
       state.isLoading = false;
@@ -34,6 +39,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = true;
       state.isLoading = false;
       state.error = null;
+      localStorage.setItem("authState", JSON.stringify(state));
     },
     signupFailure: (state, action) => {
       state.isLoading = false;
@@ -44,6 +50,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = false;
       state.isLoading = false;
       state.error = null;
+      localStorage.removeItem("authState");
     },
   },
 });

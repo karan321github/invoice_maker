@@ -17,12 +17,12 @@ const Header = () => {
   return (
     <header className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white py-4">
       <div className="container mx-auto flex justify-between items-center px-4">
-        <h1 className="text-2xl font-bold">INVOICE Maker</h1>
-        <div className="flex justify-center align-center">
+        <Link to={'/'}><h1 className="text-2xl font-bold">INVOICE Maker</h1></Link>
+        <div className="flex justify-evenly align-center">
           {isLoggedIn ? (
             <>
-              <span className="mr-4">Welcome, {user.name}</span>
-              <span><img className="rounded-full w-10 h-10" src={user.pic} alt="user pic" /></span>
+              <span className="mr-4 ml-4">Welcome, {user.name}</span>
+              <span><img className="rounded-full w-10 h-10 mr-4" src={user.pic} alt="user pic" /></span>
               <button
                 onClick={handleLogout}
                 className="bg-white text-black font-semibold py-2 px-4 rounded"
