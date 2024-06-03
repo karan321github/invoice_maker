@@ -2,15 +2,12 @@
   "name": "invoice_maker",
   "version": "1.0.0",
   "description": "",
-  "main": "backend/server.js",
+  "main": "index.js",
   "type": "module",
   "scripts": {
-    "preinstall": "rm -rf node_modules",
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "build": "npm install --prefix frontend && npm run build --prefix frontend && npm install",
-    "postinstall": "npm rebuild bcrypt"
-    
+    "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix frontend && npm run build --prefix frontend"
   },
   "keywords": [],
   "author": "",
