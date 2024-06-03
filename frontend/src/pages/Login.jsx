@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/actions/authAction";
 import { useNavigate } from "react-router-dom";
 import {
-  selectIsLoggedIn,
   selectError,
   selectIsLoading,
 } from "../store/reducers/authReducers";
