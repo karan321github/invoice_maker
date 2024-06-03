@@ -1,5 +1,4 @@
 import express from "express";
-import fs from 'fs';
 import { generatePDF, login, registerUser , verifyEmail } from "../controllers/userControllers.js";
 
 const router = express.Router();

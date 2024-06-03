@@ -5,9 +5,11 @@
   "main": "backend/server.js",
   "type": "module",
   "scripts": {
+    "preinstall": "rm -rf node_modules",
     "start": "node backend/server.js",
     "server": "nodemon backend/server.js",
-    "build": "npm install --prefix frontend && npm run build --prefix frontend && npm install"
+    "build": "npm install --prefix frontend && npm run build --prefix frontend && npm install",
+    "postinstall": "npm rebuild bcrypt"
     
   },
   "keywords": [],
