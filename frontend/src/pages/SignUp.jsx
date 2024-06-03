@@ -1,18 +1,37 @@
 // src/components/Signup.js
 
-import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { login, signUp } from '../store/actions/authAction';
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { signUp } from "../store/actions/authAction";
+import { useNavigate } from "react-router-dom";
+import {
+  selectError,
+  selectIsLoading,
+  selectIsLoggedIn,
+} from "../store/reducers/authReducers";
 
 const Signup = () => {
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [address, setAddress] = useState('');
+  const navigate = useNavigate();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [address, setAddress] = useState("");
+  const [message, setMessage] = useState("");
   const dispatch = useDispatch();
 
+  const isLoading = useSelector(selectIsLoading);
+  const error = useSelector(selectError);
+  const isLoggedIn = useSelector(selectIsLoggedIn);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      setMessage("User created successfully");
+    }
+  }, [isLoggedIn]);
+
   const handleSignup = () => {
-    dispatch(signUp({name , email , password , address}));
+    dispatch(signUp({ name, email, password, address }));
+    navigate("/login");
   };
 
   return (
@@ -30,26 +49,31 @@ const Signup = () => {
           type="Email"
           placeholder="Email"
           value={email}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full p-2 mb-4 rounded-md"
-        />
-         <input
-          type="password"
-          placeholder="Password"
-          value={password}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full p-2 mb-4 rounded-md"
         />
-         <input
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full p-2 mb-4 rounded-md"
+        />
+        <input
           type="Address"
           placeholder="Address"
           value={address}
           onChange={(e) => setAddress(e.target.value)}
           className="w-full p-2 mb-4 rounded-md"
         />
-        <button onClick={handleSignup} className="w-full bg-blue-500 text-white py-2 rounded-md">
-          Signup
+        <button
+          onClick={handleSignup}
+          className="w-full bg-blue-500 text-white py-2 rounded-md"
+        >
+          {isLoading ? "Signing Up..." : "Signup"}
         </button>
+        {message && <p className="text-green-500 mt-2">{message}</p>}
+        {error && <p className="text-red-500 mt-2">{error}</p>}
       </div>
     </div>
   );

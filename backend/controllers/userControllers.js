@@ -136,9 +136,9 @@ export const login = async (req, res) => {
       return res.status(401).json({ message: "Wrong email or password" });
     }
 
-    if (!user.isVerified) {
-      return res.status(401).json({ message: "Please verify your email" });
-    }
+    // if (!user.isVerified) {
+    //   return res.status(401).json({ message: "Please verify your email" });
+    // }
 
     res.status(200).json({
       _id: user._id,
