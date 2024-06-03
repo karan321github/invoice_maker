@@ -11,16 +11,16 @@ dotenv.config();
 
 console.log("Email:", process.env.EMAIL);
 console.log("Password:", process.env.PASSWORD);
-const { OAuth2 } = google.auth;
-const oauth2Client = new OAuth2(
-  process.env.OAUTH_CLIENT_ID,
-  process.env.OAUTH_CLIENT_SECRET,
-  "https://developers.google.com/oauthplayground"
-);
+// const { OAuth2 } = google.auth;
+// const oauth2Client = new OAuth2(
+//   process.env.OAUTH_CLIENT_ID,
+//   process.env.OAUTH_CLIENT_SECRET,
+//   "https://developers.google.com/oauthplayground"
+// );
 
-oauth2Client.setCredentials({
-  refresh_token: process.env.OAUTH_REFRESH_TOKEN,
-});
+// oauth2Client.setCredentials({
+//   refresh_token: process.env.OAUTH_REFRESH_TOKEN,
+// });
 
 // async function getAccessToken() {
 //   try {
@@ -35,43 +35,43 @@ oauth2Client.setCredentials({
 //   }
 // }
 
-const transporter = nodemailer.createTransport({
-  service: "gmail",
-  auth: {
-    type: "OAuth2",
-    user: process.env.EMAIL,
-    clientId: process.env.OAUTH_CLIENT_ID,
-    clientSecret: process.env.OAUTH_CLIENT_SECRET,
-    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
-    //     accessToken:  await getAccessToken(), // optional, will be generated automatically
-  },
-});
+// const transporter = nodemailer.createTransport({
+//   service: "gmail",
+//   auth: {
+//     type: "OAuth2",
+//     user: process.env.EMAIL,
+//     clientId: process.env.OAUTH_CLIENT_ID,
+//     clientSecret: process.env.OAUTH_CLIENT_SECRET,
+//     refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+//     //     accessToken:  await getAccessToken(), // optional, will be generated automatically
+//   },
+// });
 
-transporter.verify((error, success) => {
-  if (error) {
-    console.error("Error verifying transporter:", error);
-  } else {
-    console.log("Transporter verified successfully");
-  }
-});
+// transporter.verify((error, success) => {
+//   if (error) {
+//     console.error("Error verifying transporter:", error);
+//   } else {
+//     console.log("Transporter verified successfully");
+//   }
+// });
 
-const sendVerificationEmail = expressAsyncHandler(async (user, token) => {
-  const url = `http://localhost:5000/verify-email?token=${token}`;
+// const sendVerificationEmail = expressAsyncHandler(async (user, token) => {
+//   const url = `http://localhost:5000/verify-email?token=${token}`;
 
-  try {
-    const mailOptions = {
-      from: process.env.EMAIL,
-      to: user.email,
-      subject: "Verify your email",
-      html: `Click <a href="${url}">here</a> to verify your email.`,
-    };
+//   try {
+//     const mailOptions = {
+//       from: process.env.EMAIL,
+//       to: user.email,
+//       subject: "Verify your email",
+//       html: `Click <a href="${url}">here</a> to verify your email.`,
+//     };
 
-    const info = await transporter.sendMail(mailOptions);
-    console.log("Email sent:", info.response);
-  } catch (error) {
-    console.error("Error sending email:", error);
-  }
-});
+//     const info = await transporter.sendMail(mailOptions);
+//     console.log("Email sent:", info.response);
+//   } catch (error) {
+//     console.error("Error sending email:", error);
+//   }
+// });
 
 export const registerUser = expressAsyncHandler(async (req, res) => {
   try {
