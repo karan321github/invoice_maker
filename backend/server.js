@@ -11,7 +11,7 @@ connectDB();
 const app = express();
 app.use(cors());
 const PORT = process.env.PORT || 3000;
-
+ 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(express.json());
@@ -21,7 +21,7 @@ app.get("/", (req, res) => {
   res.send("Api is working");
 });
 
-app.use("/api/user", userRoutes);
+app.use("/api/user", userRoutes); 
 app.use("/api/user", productRoute);
 // app.use(verifyEmailRoutes);
 
