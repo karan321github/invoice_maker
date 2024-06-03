@@ -1,6 +1,32 @@
-import React from "react";
+import axios from "axios";
+import { selectUser } from "../store/reducers/authReducers";
+import { useSelector } from "react-redux";
 
 const Summary = ({ products, total, prevStep }) => {
+  const user = useSelector(selectUser);
+  console.log('user' , user.name)
+  console.log('userEmail' , user.email)
+  const handleGeneratePdf = async () => {
+    try {
+      // Make API call to generate PDF
+      const response = await axios.post(
+        "http://localhost:5000/api/user/generate-pdf",
+        {
+          products,
+          userDetails: { name: user.name, email: user.email }, // Replace with actual user details
+        }
+      );
+
+      // Download PDF
+      const blob = new Blob([response.data]);
+      const link = document.createElement("a");
+      link.href = window.URL.createObjectURL(blob);
+      link.download = "invoice.pdf";
+      link.click();
+    } catch (error) {
+      console.error("Error generating PDF:", error);
+    }
+  };
   return (
     <div>
       <h2 className="text-xl font-semibold mb-4">Summary</h2>
@@ -22,7 +48,7 @@ const Summary = ({ products, total, prevStep }) => {
         Back
       </button>
       <button
-        onClick={() => {} /* Function to generate PDF invoice */}
+        onClick={handleGeneratePdf}
         className="mt-4 bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600"
       >
         Generate PDF Invoice

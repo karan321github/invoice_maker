@@ -5,7 +5,8 @@ import nodemailer from "nodemailer";
 import dotenv from "dotenv";
 import { google } from "googleapis";
 import expressAsyncHandler from "express-async-handler";
-
+import PDFDocument from 'pdfkit';
+import fs from 'fs';
 dotenv.config();
 
 console.log("Email:", process.env.EMAIL);
@@ -183,3 +184,31 @@ export const verifyEmail = expressAsyncHandler(async (req, res) => {
     res.status(400).json({ message: "Invalid token" });
   }
 });
+
+
+ export const generatePDF = (products, userDetails) => {
+  const doc = new PDFDocument();
+  doc.pipe(fs.createWriteStream('invoice.pdf'));
+
+  doc.fontSize(20).text('Invoice', { align: 'center' });
+  doc.moveDown();
+  doc.fontSize(12).text(`Date: ${new Date().toLocaleDateString()}`);
+  doc.moveDown();
+
+ 
+  doc.fontSize(14).text(`User Details:`, { underline: true });
+  doc.fontSize(12).text(`Name: ${userDetails.name}`);
+  doc.fontSize(12).text(`Email: ${userDetails.email}`);
+  doc.moveDown();
+
+  doc.fontSize(14).text(`Product Details:`, { underline: true });
+  products.forEach((product, index) => {
+    doc.fontSize(12).text(`${index + 1}. ${product.name} - Qty: ${product.quantity}, Rate: ${product.rate}`);
+  });
+
+  const total = products.reduce((acc, product) => acc + product.quantity * product.rate, 0);
+  doc.moveDown();
+  doc.fontSize(14).text(`Total Amount: ${total}`);
+
+  doc.end();
+};
