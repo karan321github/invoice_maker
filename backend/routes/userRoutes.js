@@ -1,5 +1,5 @@
 import express from "express";
-import { generatePDF, login, registerUser , verifyEmail } from "../controllers/userControllers.js";
+import { generatePDF, login, registerUser  } from "../controllers/userControllers.js";
 
 const router = express.Router();
 
@@ -10,6 +10,6 @@ router.post('/generate-pdf' , (req , res) =>{
     generatePDF(products , userDetails);
     res.download('invoice.pdf');
 });
-router.get("/verify/:token", verifyEmail);
+// router.get("/verify/:token", verifyEmail);
 
 export default router;

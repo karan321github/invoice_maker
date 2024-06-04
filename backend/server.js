@@ -28,8 +28,8 @@ app.use(express.static("public"));
 //   res.send("Api is working");
 // });
 
-app.use("/api/user", userRoutes); 
-app.use("/api/user", productRoute);
+app.use("/api/user", userRoutes);  
+app.use("/api/user", productRoute);  
 // app.use(verifyEmailRoutes);
 //-----------------------------------------------Deployment-----------------------------------------
 

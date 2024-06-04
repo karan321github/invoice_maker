@@ -4,10 +4,11 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../store/actions/authAction";
 import { useNavigate } from "react-router-dom";
+
 import {
   selectError,
   selectIsLoading,
-  selectIsLoggedIn,
+  signupSuccess,
 } from "../store/reducers/authReducers";
 
 const Signup = () => {
@@ -17,21 +18,38 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [address, setAddress] = useState("");
   const [message, setMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
+  const signUpFailure = useSelector((state) => state.auth.signUpFailure);
 
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
-  const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  useEffect(() => {
-    if (isLoggedIn) {
-      setMessage("User created successfully");
-    }
-  }, [isLoggedIn]);
+  const validateEmail = (email) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
 
   const handleSignup = () => {
-    dispatch(signUp({ name, email, password, address }));
-    navigate("/login");
+    if (!name || !email || !password || !address) {
+      setErrorMessage("Please provide all the details");
+      return;
+    }
+
+    if (!validateEmail(email)) {
+      setErrorMessage("Invalid email format");
+      return;
+    }
+    dispatch(signUp({ name, email, password, address }))
+      .then(() => {
+        dispatch(signupSuccess());
+        navigate("/login");
+      })
+      .catch((err) => {
+        dispatch(signUpFailure());
+        console.error("something went wrong", err);
+        setErrorMessage("something went wrong please try again later");
+      });
   };
 
   return (
@@ -73,7 +91,7 @@ const Signup = () => {
           {isLoading ? "Signing Up..." : "Signup"}
         </button>
         {message && <p className="text-green-500 mt-2">{message}</p>}
-        {error && <p className="text-red-500 mt-2">{error}</p>}
+        {errorMessage && <p className="text-red-500 mt-2">{errorMessage}</p>}
       </div>
     </div>
   );

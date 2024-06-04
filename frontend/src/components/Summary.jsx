@@ -4,8 +4,8 @@ import { useSelector } from "react-redux";
 
 const Summary = ({ products, total, prevStep }) => {
   const user = useSelector(selectUser);
-  console.log('user' , user.name)
-  console.log('userEmail' , user.email)
+  console.log('user' , user?.name)
+  console.log('userEmail' , user?.email)
   const handleGeneratePdf = async () => {
     try {
       // Make API call to generate PDF
