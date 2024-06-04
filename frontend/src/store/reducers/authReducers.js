@@ -39,7 +39,7 @@ export const authSlice = createSlice({
       state.isLoggedIn = true;
       state.isLoading = false;
       state.error = null;
-      localStorage.setItem("authState", JSON.stringify(state));
+      // localStorage.setItem("authState", JSON.stringify(state));
     },
     signupFailure: (state, action) => {
       state.isLoading = false;

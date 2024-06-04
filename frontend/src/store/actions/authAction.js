@@ -26,7 +26,11 @@ export const login =
         dispatch(loginSuccess(loginUser.data));
       }
     } catch (error) {
-      dispatch(loginFailure("Login Failed"));
+      const errorMessage =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : "LoginIn Failed";
+      dispatch(loginFailure(errorMessage));
     }
   };
 
@@ -49,6 +53,10 @@ export const signUp =
         dispatch(signupSuccess(signUser.data));
       }
     } catch (error) {
-      dispatch(signupFailure("SignUp failed"));
+      const errorMessage =
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : "Signup failed";
+      dispatch(signupFailure(errorMessage));
     }
   };

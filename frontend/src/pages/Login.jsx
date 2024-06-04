@@ -1,12 +1,12 @@
-// src/components/Login.js
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../store/actions/authAction";
 import { useNavigate } from "react-router-dom";
+
 import {
   selectError,
   selectIsLoading,
+  selectIsLoggedIn,
 } from "../store/reducers/authReducers";
 
 const Login = () => {
@@ -17,16 +17,25 @@ const Login = () => {
 
   const isLoading = useSelector(selectIsLoading);
   const error = useSelector(selectError);
-  
+  const isLoggedIn = useSelector(selectIsLoggedIn);
 
-  const handleLogin = () => {
+  useEffect(() => {
+    if (isLoggedIn) {
+      navigate("/products");
+    }
+  }, [navigate, isLoggedIn]);
+
+  const handleLogin = (e) => {
+    e.preventDefault();
     dispatch(login({ email, password }));
-    navigate("/products");
   };
 
   return (
-    <div className="flex justify-evenly items-center h-screen">
-      <div className="w-1/4 p-4 h-fit justify-evenly bg-transparent p-2 rounded-lg shadow-lg">
+    <div className="flex justify-center items-center h-screen">
+      <form
+        className="w-1/4 p-4 h-fit justify-evenly bg-transparent p-2 rounded-lg shadow-lg"
+        onSubmit={handleLogin}
+      >
         <h2 className="text-2xl font-bold mb-4">Login</h2>
         {error && <p className="mb-5 text-red-500">{error}</p>}
         {isLoading && <p className="text-gray-500 mb-2">Loading...</p>}
@@ -36,6 +45,7 @@ const Login = () => {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           className="w-full p-2 mb-2 rounded-md"
+          required
         />
         <input
           type="password"
@@ -43,14 +53,16 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           className="w-full p-2 mb-4 rounded-md"
+          required
         />
         <button
-          onClick={handleLogin}
+          type="submit"
+          disabled={isLoading}
           className="w-full bg-blue-500 hover:bg-blue-400 text-white py-2 rounded-md"
         >
-          Login
+          {isLoading ? "Logging In..." : "Login"}
         </button>
-      </div>
+      </form>
     </div>
   );
 };
