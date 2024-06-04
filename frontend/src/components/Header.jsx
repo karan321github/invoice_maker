@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   logout,
   selectIsLoggedIn,
@@ -11,13 +11,19 @@ const Header = () => {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(selectIsLoggedIn);
   const user = useSelector(selectUser);
+  const navigate = useNavigate();
 
   const [logoutFeedback, setLogoutFeedback] = useState("");
 
   const handleLogout = () => {
     dispatch(logout());
+    navigate("/login");
     setLogoutFeedback("You have been logged out!");
   };
+
+  setTimeout(() => {
+    setLogoutFeedback("");
+  }, 2000);
   return (
     <>
       <header className="bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 text-white py-4">
@@ -28,7 +34,7 @@ const Header = () => {
           <div className="flex justify-evenly align-center">
             {isLoggedIn ? (
               <>
-                <span className="mr-4 ml-4">Welcome, {user.name}</span>
+                <span className="mr-4 ml-4">Welcome, {user?.name}</span>
                 <span>
                   <img
                     className="rounded-full w-10 h-10 mr-4"
