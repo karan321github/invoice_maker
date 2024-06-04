@@ -36,10 +36,10 @@ export const authSlice = createSlice({
     },
     signupSuccess: (state, action) => {
       state.user = action.payload;
-      state.isLoggedIn = true;
+      // state.isLoggedIn = true;
       state.isLoading = false;
       state.error = null;
-      // localStorage.setItem("authState", JSON.stringify(state));
+      localStorage.setItem("authState", JSON.stringify(state));
     },
     signupFailure: (state, action) => {
       state.isLoading = false;

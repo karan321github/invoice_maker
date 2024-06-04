@@ -1,15 +1,10 @@
-// src/components/Signup.js
 
-import { useEffect, useState } from "react";
+import {  useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { signUp } from "../store/actions/authAction";
 import { useNavigate } from "react-router-dom";
 
-import {
-  selectError,
-  selectIsLoading,
-  signupSuccess,
-} from "../store/reducers/authReducers";
+import { selectIsLoading } from "../store/reducers/authReducers";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -20,10 +15,9 @@ const Signup = () => {
   const [message, setMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const dispatch = useDispatch();
-  const signUpFailure = useSelector((state) => state.auth.signUpFailure);
 
   const isLoading = useSelector(selectIsLoading);
-  const error = useSelector(selectError);
+  
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -40,16 +34,8 @@ const Signup = () => {
       setErrorMessage("Invalid email format");
       return;
     }
-    dispatch(signUp({ name, email, password, address }))
-      .then(() => {
-        dispatch(signupSuccess());
-        navigate("/login");
-      })
-      .catch((err) => {
-        dispatch(signUpFailure());
-        console.error("something went wrong", err);
-        setErrorMessage("something went wrong please try again later");
-      });
+    dispatch(signUp({ name, email, password, address }));
+    navigate("/login");
   };
 
   return (

@@ -38,6 +38,9 @@ export const signUp =
   ({ name, email, password, address }) =>
   async (dispatch) => {
     dispatch(signupStart());
+    const config = {
+      "Content-Type": "application/json",
+    };
     try {
       const signUser = await axios.post(
         "http://localhost:5000/api/user/signup",
@@ -46,7 +49,8 @@ export const signUp =
           email,
           password,
           address,
-        }
+        },
+        config
       );
       console.log(signUser);
       if (signUser) {
