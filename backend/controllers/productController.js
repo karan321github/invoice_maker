@@ -136,7 +136,7 @@ const addProduct = async (req, res) => {
               products.reduce(
                 (acc, product) => acc + product.quantity * product.rate,
                 0
-              ) * 1.18
+              ) * 0.18
             }</span></h2>
         </div>
     </div>
