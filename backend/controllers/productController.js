@@ -5,11 +5,12 @@ const addProduct = async (req, res) => {
   try {
     const { products, userDetails } = req.body;
     const invoice = new Invoice({ products, userDetails });
+    console.log(userDetails);
     await invoice.save();
 
     const browser = await puppeteer.launch({
       args: ["--no-sandbox", "--disable-setuid-sandbox"],
-    });
+    }); 
     const page = await browser.newPage();
 
     const invoiceTemplate = `
@@ -44,8 +45,14 @@ const addProduct = async (req, res) => {
         font-weight: bold;
         margin: 0;
     }
+    .header p {
+      font-size: 12px;
+      font-weight: bold;
+      margin: 0;
+    }
     .header img {
         width: 100px;
+        
     }
     .sub-header {
         margin-bottom: 20px;
@@ -99,9 +106,14 @@ const addProduct = async (req, res) => {
     <div class="container">
         <div class="header">
             <h1>INVOICE GENERATOR</h1>
-            <img src="logo.png" alt="Logo">
+            <img src=${'/backend/assets/invoice_image.jpeg'} alt="Logo">
+            <p>Name - ${userDetails.name}</p>
+            </br>
+            <p>Email - ${userDetails.email}</p>
+            </br>
+            <p>Address - ${userDetails.address}</p>
         </div>
-
+      
         <table class="table">
             <thead>
                 <tr>
@@ -136,7 +148,7 @@ const addProduct = async (req, res) => {
               products.reduce(
                 (acc, product) => acc + product.quantity * product.rate,
                 0
-              ) * 0.18
+              ) * 1.18
             }</span></h2>
         </div>
     </div>

@@ -14,7 +14,7 @@ const Summary = ({ products, total, prevStep }) => {
         "http://localhost:5000/api/user/products",
         {
           products,
-          userDetails: { name: user.name, email: user.email },
+          userDetails: { name: user.name, email: user.email , address: user.address },
         },
         {
           headers: { "Content-Type": "application/json" },
