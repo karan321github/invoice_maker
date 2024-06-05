@@ -35,6 +35,7 @@ const ProductForm = ({ nextStep, addProduct }) => {
           onChange={(e) => setQuantity(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded-md"
           required
+          min={1}
         />
       </div>
       <div className="mb-4">
@@ -47,6 +48,7 @@ const ProductForm = ({ nextStep, addProduct }) => {
           onChange={(e) => setRate(e.target.value)}
           className="w-full p-2 border border-gray-300 rounded-md"
           required
+          min={1}
         />
       </div>
       <button

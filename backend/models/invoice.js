@@ -1,11 +1,17 @@
 import mongoose from "mongoose";
 
-const invoiceSchema = mongoose.Schema({
-  user: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
-  products: [productSchema],
-  date: { type: Date, default: Date.now },
+
+const invoiceSchema = new mongoose.Schema({
+  products: [{
+      name: String,
+      qty: Number,
+      rate: Number,
+      total: Number,
+      gst: Number
+  }],
+  date: { type: Date, default: Date.now }
 });
 
-const Invoice = mongoose.model("Invoice", invoiceSchema);
+const Invoice = mongoose.model('Invoice', invoiceSchema);
 
-export default Invoice;
+export default Invoice

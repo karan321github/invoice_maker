@@ -5,10 +5,12 @@ import dotenv from "dotenv";
 import expressAsyncHandler from "express-async-handler";
 import PDFDocument from "pdfkit";
 import fs from "fs";
+import express from 'express';
 dotenv.config();
 
 console.log("Email:", process.env.EMAIL);
 console.log("Password:", process.env.PASSWORD);
+
 
 export const registerUser = expressAsyncHandler(async (req, res) => {
   try {
