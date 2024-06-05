@@ -3,9 +3,7 @@ import User from "../models/user.js";
 import { generateToken } from "../config/generateToken.js";
 import dotenv from "dotenv";
 import expressAsyncHandler from "express-async-handler";
-import PDFDocument from "pdfkit";
-import fs from "fs";
-import express from 'express';
+
 dotenv.config();
 
 console.log("Email:", process.env.EMAIL);
@@ -96,37 +94,4 @@ export const login = expressAsyncHandler(async (req, res) => {
   }
 });
 
-export const generatePDF = (products, userDetails) => {
-  const doc = new PDFDocument();
-  doc.pipe(fs.createWriteStream("invoice.pdf"));
 
-  doc.fontSize(20).text("Invoice", { align: "center" });
-  doc.moveDown();
-  doc.fontSize(12).text(`Date: ${new Date().toLocaleDateString()}`);
-  doc.moveDown();
-
-  doc.fontSize(14).text(`User Details:`, { underline: true });
-  doc.fontSize(12).text(`Name: ${userDetails.name}`);
-  doc.fontSize(12).text(`Email: ${userDetails.email}`);
-  doc.moveDown();
-
-  doc.fontSize(14).text(`Product Details:`, { underline: true });
-  products.forEach((product, index) => {
-    doc
-      .fontSize(12)
-      .text(
-        `${index + 1}. ${product.name} - Qty: ${product.quantity}, Rate: ${
-          product.rate
-        }`
-      );
-  });
-
-  const total = products.reduce(
-    (acc, product) => acc + product.quantity * product.rate,
-    0
-  );
-  doc.moveDown();
-  doc.fontSize(14).text(`Total Amount: ${total}`);
-
-  doc.end();
-};
